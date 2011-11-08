@@ -22,8 +22,8 @@ import android.content.Context;
 public class SaveData implements Observable {
 	private String filename;
 	//The class we're serialising. 
-	private Thing data;
-	private ArrayList<Listener> listeners = new ArrayList<Listener>();
+	private Thing mData;
+	private ArrayList<Listener> mListeners = new ArrayList<Listener>();
 
 	/**
 	 * Set the filename for the datastore.
@@ -35,9 +35,9 @@ public class SaveData implements Observable {
 	 */
 	public SaveData(String filename) {
 		this.filename = filename;
-		this.data = this.readObj();		
-		if(this.data==null) 
-			this.data = new Thing("", 0);		
+		this.mData = this.readObj();		
+		if(this.mData==null) 
+			this.mData = new Thing("", 0);		
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class SaveData implements Observable {
 		try {
 		      fos = c.openFileOutput(this.filename, Context.MODE_PRIVATE);
 		      ObjectOutputStream oos = new ObjectOutputStream(fos);
-		      oos.writeObject(this.data);
+		      oos.writeObject(this.mData);
 		      oos.close();
 		      fos.close();           
 		} catch (FileNotFoundException e) {
@@ -89,7 +89,7 @@ public class SaveData implements Observable {
 	 * @param text for the child object
 	 */	
 	public Thing getData() {
-		return this.data;
+		return this.mData;
 	}
 	
 	/** 
@@ -98,7 +98,7 @@ public class SaveData implements Observable {
 	 */
 	public void addToList(String text) {
 		Thing c1 = new Thing(text, 0);
-		this.data.addChild(c1);
+		this.mData.addChild(c1);
 		this.notifyListeners();		
 	}	
 	
@@ -107,18 +107,18 @@ public class SaveData implements Observable {
 	 * @param id the num in the ArrayList object
 	 */	
 	public void deleteFromList(long id) {
-		this.data.deleteChild((int) id);
+		this.mData.deleteChild((int) id);
 		this.notifyListeners();		
 	}
 
 	@Override
 	public void addListener(Listener l) {
-		this.listeners.add(l);
+		this.mListeners.add(l);
 	}		
 	
 	private void notifyListeners() {
-		for (Iterator<Listener> iterator = this.listeners.iterator(); iterator.hasNext();) {
-			iterator.next().observerableUpdated(this.data);
+		for (Iterator<Listener> iterator = this.mListeners.iterator(); iterator.hasNext();) {
+			iterator.next().observerableUpdated(this.mData);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class SaveData implements Observable {
 	 * @param text
 	 */
 	public void editListItem(int id, String text) {
-		this.data.editChild(id, text);
+		this.mData.editChild(id, text);
 		this.notifyListeners();				
 	}
 }

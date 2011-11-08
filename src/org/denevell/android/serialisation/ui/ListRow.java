@@ -1,6 +1,7 @@
 package org.denevell.android.serialisation.ui;
 
-import test.sugar.R;
+import org.denevell.android.serialisation.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

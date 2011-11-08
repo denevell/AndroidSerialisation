@@ -15,44 +15,44 @@ public class Thing implements Serializable {
 	//Used so that even if the member fields change
 	//serialisation will still occur on this class
 	private static final long serialVersionUID = -1904519973250789866L;
-	private String text;
+	private String mText;
 	//The class's children
-	private ArrayList<Thing> cc1 = new ArrayList<Thing>(); 
+	private ArrayList<Thing> mCc1 = new ArrayList<Thing>(); 
 
 	public Thing(String a, int b) {
-		this.text=a;
+		this.mText=a;
 	}
 		
 	public String getA() {
-		return text;
+		return mText;
 	}
 	
 	public void setA(String a) {
-		this.text = a;
+		this.mText = a;
 	}
 
 	public void addChild(Thing cc1) {
-		this.cc1.add(cc1);
+		this.mCc1.add(cc1);
 	}
 
 	public int getChildNum() {
-		return this.cc1.size();
+		return this.mCc1.size();
 	}
 	
 	public Thing getChild(int i) {
-		return this.cc1.get(i);
+		return this.mCc1.get(i);
 	}
 
 	public String getChildText(int position) {
-		return this.cc1.get(position).getA();
+		return this.mCc1.get(position).getA();
 	}
 	
 	public void deleteChild(int childNum) {
-		this.cc1.remove(childNum);
+		this.mCc1.remove(childNum);
 	}
 	
 	public void editChild(int childNum, String newText) {
-		Thing e = this.cc1.get(childNum);
+		Thing e = this.mCc1.get(childNum);
 		e.setA(newText);
 	}
 	
@@ -68,8 +68,8 @@ public class Thing implements Serializable {
 	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException, IllegalArgumentException {
 		ObjectInputStream.GetField fields = ois.readFields();
-		text = (String)  fields.get("text", "default");;
-		cc1 = (ArrayList<Thing>) fields.get("cc1", null);
+		mText = (String)  fields.get("text", "default");;
+		mCc1 = (ArrayList<Thing>) fields.get("cc1", null);
 	}
 	
 	/**
@@ -79,8 +79,8 @@ public class Thing implements Serializable {
 	 */
 	private void writeObject(ObjectOutputStream oos) throws IOException {
 		  ObjectOutputStream.PutField fields = oos.putFields();
-		  fields.put("text", text);
-		  fields.put("cc1", cc1);
+		  fields.put("text", mText);
+		  fields.put("cc1", mCc1);
 		  oos.writeFields();
 	}
 	

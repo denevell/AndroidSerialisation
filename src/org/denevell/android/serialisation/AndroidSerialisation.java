@@ -4,7 +4,6 @@ import org.denevell.android.serialisation.data.SaveData;
 import org.denevell.android.serialisation.observable.Listener;
 import org.denevell.android.serialisation.ui.SerialAdapter;
 
-import test.sugar.R;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -34,15 +33,15 @@ public class AndroidSerialisation extends ListActivity implements Listener {
 	
 	//adapter to show the serialised data in the 
 	//ListActivity
-	private SerialAdapter adapter;
-	private String sealisedfilename = "classy1";
+	private SerialAdapter mAdapter;
+	private String mSealisedfilename = "classy1";
 	//class used to save the classes
-	private SaveData serialsedData;
+	private SaveData mSerialsedData;
 	private static Context sCONTEXT;
 
 	/** 
 	 * Published the Context object as a static field.
-	 * Sets up the Seralised object, with the filename.
+	 * Sets up the Serialised object, with the filename.
 	 * Sets a context menu for the list.
 	 */
     @Override
@@ -52,9 +51,16 @@ public class AndroidSerialisation extends ListActivity implements Listener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        this.serialsedData = new SaveData(this.sealisedfilename);
+        this.mSerialsedData = new SaveData(this.mSealisedfilename);
         
-        this.serialsedData.addListener(this);
+        //Give it some sample data.
+        if(mSerialsedData.getData().getChildNum()==0) {
+            for (int i = 0; i < 10; i++) { //if you take this over 2000 you'll app'll slow.
+    			mSerialsedData.addToList("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+    		}        	
+        }
+        
+        this.mSerialsedData.addListener(this);
         
         setAdapater();        
         registerForContextMenu(getListView());
@@ -106,7 +112,7 @@ public class AndroidSerialisation extends ListActivity implements Listener {
 		TextView tv = (TextView) info.targetView;
 		int itemId = item.getItemId();
 		if(itemId==R.id.context_menu_delete) {
-			this.serialsedData.deleteFromList(info.id);
+			this.mSerialsedData.deleteFromList(info.id);
 		} else if(itemId==R.id.context_menu_edit) {			
 			Intent i = new Intent(this, Edit.class);
 			int adapterPos = info.position;
@@ -137,14 +143,14 @@ public class AndroidSerialisation extends ListActivity implements Listener {
 
 	private void parseAddActivityResult(Intent data) {
 		String text = data.getExtras().getString(Add.EXTRA_ADDED_TEXT);
-		this.serialsedData.addToList(text);
+		this.mSerialsedData.addToList(text);
 	}
 
 	private void parseEditActivityResult(Intent data) {
 		String text = data.getStringExtra(Edit.EXTRA_EDITED_TEXT);
 		int id = data.getIntExtra(Edit.EXTRA_ITEM_ID, -1);
 		if(text!=null && id!=-1) {
-			this.serialsedData.editListItem(id, text);
+			this.mSerialsedData.editListItem(id, text);
 		}
 	}
 
@@ -153,7 +159,7 @@ public class AndroidSerialisation extends ListActivity implements Listener {
 	 */
 	@Override
 	public void observerableUpdated(Object c) {
-	      this.serialsedData.writeData(this);    
+	      this.mSerialsedData.writeData(this);    
 	      setAdapater();
 	}
 	
@@ -162,8 +168,8 @@ public class AndroidSerialisation extends ListActivity implements Listener {
      * Then set the list's adapter using this data.
      */
 	private void setAdapater() {
-        this.adapter = new SerialAdapter(this.serialsedData.getData());
-        setListAdapter(this.adapter);
+        this.mAdapter = new SerialAdapter(this.mSerialsedData.getData());
+        setListAdapter(this.mAdapter);
 	}	
 
 }

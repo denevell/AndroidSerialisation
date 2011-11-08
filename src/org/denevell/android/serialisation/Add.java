@@ -1,6 +1,6 @@
 package org.denevell.android.serialisation;
 
-import test.sugar.R;
+import org.denevell.android.serialisation.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,13 +14,13 @@ public class Add extends Activity {
 	public static final int ADDED_SOMETHING = 0;
 	public static final int ADDED_NOTHING = 1;
 	public static String EXTRA_ADDED_TEXT = "text";
-	private EditText edittext;
+	private EditText mEdittext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
-        this.edittext = (EditText) findViewById(R.id.add_edittext_addtext);
+        this.mEdittext = (EditText) findViewById(R.id.add_edittext_addtext);
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class Add extends Activity {
 	@Override
 	public void onBackPressed() {
 		Intent i = new Intent();
-		String s = this.edittext.getText().toString();
+		String s = this.mEdittext.getText().toString();
 		int res;
 		if(s.length()>0) {
 			i.putExtra(Add.EXTRA_ADDED_TEXT, s);

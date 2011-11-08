@@ -1,6 +1,6 @@
 package org.denevell.android.serialisation;
 
-import test.sugar.R;
+import org.denevell.android.serialisation.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,17 +21,17 @@ public class Edit extends Activity {
 	public static final String EXTRA_ITEM_ID = "item_id";
 	public static final String EXTRA_EDITED_TEXT = "text";
 	
-	private EditText edittext;
-	private String dataToEdit;
-	private int itemId;
+	private EditText mEdittext;
+	private String mDataToEdit;
+	private int mItemId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
-        this.edittext = (EditText) findViewById(R.id.add_edittext_addtext);
+        this.mEdittext = (EditText) findViewById(R.id.add_edittext_addtext);
         getIntentData();
-        this.edittext.setText(this.dataToEdit);
+        this.mEdittext.setText(this.mDataToEdit);
 	}
 	
 	/**
@@ -40,11 +40,11 @@ public class Edit extends Activity {
 	@Override
 	public void onBackPressed() {
 		Intent i = new Intent();
-		String s = this.edittext.getText().toString();
+		String s = this.mEdittext.getText().toString();
 		int res;
 		if(s.length()>0) {
 			i.putExtra(Edit.EXTRA_EDITED_TEXT, s);
-			i.putExtra(Edit.EXTRA_ITEM_ID, this.itemId);
+			i.putExtra(Edit.EXTRA_ITEM_ID, this.mItemId);
 			
 			res = Edit.EDITED_SOMETHING;
 			setResult(res, i);			
@@ -65,8 +65,8 @@ public class Edit extends Activity {
 			int id = i.getExtras().getInt(AndroidSerialisation.EXTRA_ITEM_ID);		
 			if(i.getExtras().containsKey(AndroidSerialisation.EXTRA_ITEM_ID) &&
 			   s!=null) { 
-				this.dataToEdit = s;
-				this.itemId = id;
+				this.mDataToEdit = s;
+				this.mItemId = id;
 				return;
 			}
 		}
