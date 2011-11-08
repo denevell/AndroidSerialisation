@@ -68,7 +68,7 @@ public class Thing implements Serializable {
 	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException, IllegalArgumentException {
 		ObjectInputStream.GetField fields = ois.readFields();
-		mText = (String)  fields.get("text", "default");;
+		mText = (String)  fields.get("mText", "default");;
 		mCc1 = (ArrayList<Thing>) fields.get("cc1", null);
 	}
 	
@@ -79,8 +79,8 @@ public class Thing implements Serializable {
 	 */
 	private void writeObject(ObjectOutputStream oos) throws IOException {
 		  ObjectOutputStream.PutField fields = oos.putFields();
-		  fields.put("text", mText);
-		  fields.put("cc1", mCc1);
+		  fields.put("mText", mText);
+		  fields.put("mCc1", mCc1);
 		  oos.writeFields();
 	}
 	
